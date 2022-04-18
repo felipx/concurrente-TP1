@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.lang.Thread;
 
 public class Creador{
@@ -9,15 +8,17 @@ public class Creador{
     private int cantidadCreados;
     private long demoraMs; //El tiempo que tarda en crear un dato
 
+    /* Constructor */
     public Creador(Buffer bufferInicial, long demora){
         this.bufferInicial = bufferInicial;
         this.cantidadCreados = 0;
         this.demoraMs = demora;
     }
 
-    public crear(void){
+    /* Crea un nuevo dato (con su demora respectiva) y se lo entrega al buffer inicial */
+    public void crear(void){
         Dato nuevoDato= new Dato();
-        sleep(demoraMs);
+        sleep(this.demoraMs);
         this.cantidadCreados++;
         this.bufferInicial.AgregarDato(nuevoDato);
     }
