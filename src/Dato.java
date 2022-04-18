@@ -3,7 +3,6 @@ import java.util.HashSet;
 public class Dato {
 
     private final HashSet<Long> reviews;
-    private int id;
     private boolean enUso;
     private boolean validado;
 
@@ -39,18 +38,6 @@ public class Dato {
      *
      */
     public int getReviewersCount(){ return reviews.size(); }
-
-    /**
-     * Devuelve el id del dato
-     *
-     */
-    public int getId(){ return id; }
-
-    /**
-     * Setea el id del dato
-     *
-     */
-    public void setId(int ID){ this.id = ID; }
 
     /**
      * Verifica si el dato está en uso

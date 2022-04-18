@@ -4,7 +4,6 @@ public class Buffer {
 
     private final int LimiteDatos;
     private HashMap<Integer, Dato> Datos;
-    static int id = 0;
     static int rechazados = 0;
 
     /**
@@ -28,10 +27,7 @@ public class Buffer {
             this.rechazados++;
             return;
         }
-        this.id++;          //Incrementa el ID para asignarselo al dato
-        dato.setId(this.id);//Posible error de concurrencia, porque este salto de instrucción no es atómico
-
-        Datos.put(dato.getId(), dato); //Se asegura de usar el ID correcto como llave
+        Datos.put(dato.hashCode(), dato);
     }
 
     /**
