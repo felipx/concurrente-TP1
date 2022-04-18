@@ -5,6 +5,7 @@ public class Dato {
     private final HashSet<Long> reviews;
     private int id;
     private boolean enUso;
+    private boolean validado;
 
     /**
      * Constructor sin parámetros
@@ -12,6 +13,7 @@ public class Dato {
      */
     public Dato(){
         enUso = false;
+        validado = false;
         reviews = new HashSet<>();
     }
 
@@ -48,7 +50,13 @@ public class Dato {
      * Verifica si el dato está en uso
      *
      */
-    public boolean getUso(){ return enUso; }
+    public boolean isEnUso(){ return enUso; }
+
+    /**
+     * Verifica si el dato está validad
+     *
+     */
+    public boolean isValidado(){ return validado; }
 
     /**
      * Verifica que el validador no haya revisado el dato anteriormente
