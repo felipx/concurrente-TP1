@@ -2,15 +2,16 @@ import java.util.HashSet;
 
 public class Dato {
 
-    private HashSet reviews;
+    private final HashSet<Long> reviews;
     private int id;
+    private boolean enUso;
 
     /**
      * Constructor sin parámetros
      *
      */
     public Dato(){
-            reviews = new HashSet();
+            reviews = new HashSet<>();
     }
 
     /**
@@ -20,21 +21,21 @@ public class Dato {
      * @param thread El revisor a agregar
      */
     public void addReviewer(Thread thread){
+        enUso = true;
         if(checkReviewer(thread)){
                 reviews.add(thread.getId());
-            }
-            else{
-                System.out.println(String.format("El hilo %d ya ha validado este dato", thread.getId()));
-            }
         }
+        else{
+            System.out.println(String.format("El hilo %d ya ha validado este dato", thread.getId()));
+        }
+        enUso = false;
+    }
 
     /**
      * Devuelve la cantidad de revisores que han validado el dato
      *
      */
-    public int getReviewersCount(){
-            return reviews.size();
-        }
+    public int getReviewersCount(){ return reviews.size(); }
 
     /**
      * Devuelve el id del dato
