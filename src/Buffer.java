@@ -30,12 +30,16 @@ public class Buffer {
     /**
      * Obtiene un dato del Buffer, según su id.
      * Si no hay dato con el id indicado, devuelve null.
-     * @param id El id del dato a obtener del Buffer.
      */
-    public Dato ObtenerDato(int id) {
-        if (!Datos.containsKey(id))
+    public Dato ObtenerDato() {
+        if (Datos.isEmpty())
             return null;
-        return Datos.get(id);
+        for (int key : Datos.keySet()) {
+            if (Datos.get(key).isEnUso() || Datos.get(key).isValidado())
+                continue;
+            return Datos.get(key);
+        }
+        return null;
     }
 
     /**
