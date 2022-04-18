@@ -3,6 +3,7 @@ import java.util.HashSet;
 public class Dato {
 
     private HashSet reviews;
+    private int id;
 
     /**
      * Constructor sin parámetros
@@ -34,6 +35,12 @@ public class Dato {
     public int getReviewersCount(){
             return reviews.size();
         }
+
+    /**
+     * Devuelve el id del dato
+     *
+     */
+    public int getId(){ return id; }
 
     /**
      * Verifica que el validador no haya revisado el dato anteriormente
