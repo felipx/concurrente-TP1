@@ -46,6 +46,10 @@ public class Dato {
      */
     public int getId(){ return id; }
 
+    public void setId(int ID){
+        this.id = ID;
+    }
+
     /**
      * Verifica si el dato está en uso
      *

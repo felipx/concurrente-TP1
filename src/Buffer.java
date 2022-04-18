@@ -4,6 +4,8 @@ public class Buffer {
 
     private final int LimiteDatos;
     private HashMap<Integer, Dato> Datos;
+    static int id = 0;
+    static int rechazados = 0;
 
     /**
      * Constructor con parámetros
@@ -22,9 +24,14 @@ public class Buffer {
      * @param dato El dato a agregar en el Buffer.
      */
     public void AgregarDato(Dato dato) {
-        if (Datos.size() >= LimiteDatos)
+        if (Datos.size() >= LimiteDatos){
+            this.rechazados++;
             return;
-        Datos.put(dato.getId(), dato);
+        }
+        this.id++;          //Incrementa el ID para asignarselo al dato
+        dato.setId(this.id);//Posible error de concurrencia, porque este salto de instrucción no es atómico
+
+        Datos.put(dato.getId(), dato); //Se asegura de usar el ID correcto como llave
     }
 
     /**
