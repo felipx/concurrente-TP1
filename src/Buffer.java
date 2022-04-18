@@ -35,8 +35,8 @@ public class Buffer {
     }
 
     /**
-     * Obtiene un dato del Buffer, según su id.
-     * Si no hay dato con el id indicado, devuelve null.
+     * Obtiene un dato del Buffer.
+     * Si no hay datos o si están en uso, devuelve null.
      */
     public Dato ObtenerDato() {
         if (Datos.isEmpty())
