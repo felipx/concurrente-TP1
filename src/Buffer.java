@@ -18,9 +18,9 @@ public class Buffer {
     }
 
     /**
-     * Agrega un dato al Buffer.
+     * Le asigna un ID a un dato y lo agrega al Buffer.
      * No se puede agregar un dato si el total de datos es mayor
-     * o igual a LimiteDatos
+     * o igual a LimiteDatos.
      * @param dato El dato a agregar en el Buffer.
      */
     public void AgregarDato(Dato dato) {
