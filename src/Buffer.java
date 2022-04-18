@@ -33,8 +33,11 @@ public class Buffer {
      * @param id El id del dato a obtener del Buffer.
      */
     public Dato ObtenerDato(int id) {
-        if (!Datos.containsKey(id))
+        if (Datos.isEmpty() || !Datos.containsKey(id))
             return null;
+        for (int key : Datos.keySet()) {
+            if (Datos.get(key).)
+        }
         return Datos.get(id);
     }
 

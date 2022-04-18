@@ -11,7 +11,8 @@ public class Dato {
      *
      */
     public Dato(){
-            reviews = new HashSet<>();
+        enUso = false;
+        reviews = new HashSet<>();
     }
 
     /**
@@ -42,6 +43,12 @@ public class Dato {
      *
      */
     public int getId(){ return id; }
+
+    /**
+     * Verifica si el dato está en uso
+     *
+     */
+    public boolean getUso(){ return enUso; }
 
     /**
      * Verifica que el validador no haya revisado el dato anteriormente
