@@ -1,76 +1,89 @@
 import java.util.HashSet;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class Dato {
 
-    private final HashSet<Long> reviews;
-    private boolean enUso;
-    private boolean validado;
+    public final HashSet<Revisor> reviews;
+    private ReentrantReadWriteLock lock;
+    private static int static_id = 0;
+    private final int id;
 
     /**
      * Constructor sin parámetros
      *
      */
     public Dato(){
-        enUso = false;
-        validado = false;
-        reviews = new HashSet<>();
+        reviews = new HashSet<Revisor>();
+        this.lock = new ReentrantReadWriteLock();
+        static_id ++;
+        this.id = static_id;
+    }
+
+    public Dato(int id, HashSet<Revisor> reviews){
+        this.reviews = reviews;
+        this.lock = new ReentrantReadWriteLock();
+        this.id = id;
     }
 
     /**
      * Agrega un revisor al HashSet usando el ID del thread.
      * Verifica que no lo haya revisado antes, si no imprime un error
      *
-     * @param thread El revisor a agregar
+     * @param revisor El revisor a agregar
      */
-    public void addReviewer(Thread thread){
-        enUso = true;
-        if(checkReviewer(thread)){
-                reviews.add(thread.getId());
+    public void addReviewer(Revisor revisor){
+        if(!revisadoPor(revisor)){
+            this.lock.writeLock().lock();
+            this.reviews.add(revisor);
+            this.lock.writeLock().unlock();
         }
         else{
-            System.out.println(String.format("El hilo %d ya ha validado este dato", thread.getId()));
+            System.out.println("El revisor " + revisor + " ya ha revisado este dato");
         }
-        enUso = false;
     }
 
     /**
      * Devuelve la cantidad de revisores que han validado el dato
      *
      */
-    public int getReviewersCount(){ return reviews.size(); }
-
-    /**
-     * Verifica si el dato está en uso
-     *
-     */
-    public boolean isEnUso(){ return enUso; }
+    public int getReviewersCount(){
+        this.lock.readLock().lock();
+        int size = this.reviews.size();
+        this.lock.readLock().lock();
+        return size;
+    }
 
     /**
      * Verifica si el dato está validad
      *
      */
-    public boolean isValidado(){ return validado; }
 
     /**
      * Verifica que el validador no haya revisado el dato anteriormente
      *
-     * @param thread El revisor del cual se quiere validar
+     * @param revisor El revisor del cual se quiere validar
      */
-    public boolean checkReviewer(Thread thread){
-            return reviews.contains(thread.getId());
-        }
+    public boolean revisadoPor(Revisor revisor){
+        this.lock.readLock().lock();
+        boolean isReviewed =  this.reviews.contains(revisor);
+        this.lock.readLock().unlock();
+        return isReviewed;
+    }
   
 
     /**
      * Realiza la copia de un dato
      *
      */
-    public Object clone(){
-            Dato dato = null;
-            try {
-                dato = (Dato) super.clone();
-            } catch (CloneNotSupportedException e) {}
-
-            return dato;
-        }
+    public Dato clone(){
+        this.lock.readLock().lock();
+        HashSet<Revisor> reviews = (HashSet<Revisor>) this.reviews.clone();
+        Dato dato = new Dato(this.id, reviews);
+        this.lock.readLock().unlock();
+        return dato;
     }
+
+    public int getId() {
+        return id;
+    }
+}

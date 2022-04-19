@@ -1,12 +1,10 @@
-import java.util.HashMap;
-import java.lang.Thread;
+import java.util.concurrent.TimeUnit;
 
-public class Creador{
-
+public class Creador implements Runnable{
+    public static final int N_CREADORES = 4;
     private Buffer bufferInicial;
-    private ReentrantReadWriteLock Lock;
     private int cantidadCreados;
-    private long demoraMs; 
+    private final long demora;
 
     /**
      * Constructor con parámetros
@@ -17,7 +15,13 @@ public class Creador{
     public Creador(Buffer bufferInicial, long demora){
         this.bufferInicial = bufferInicial;
         this.cantidadCreados = 0;
-        this.demoraMs = demora;
+        this.demora = demora;
+    }
+
+    public void run(){
+        for (int i=0; i<1000; i++){
+            crear();
+        }
     }
 
     /**
@@ -25,10 +29,19 @@ public class Creador{
      * y se lo entrega al buffer. 
      */
     public void crear(){
-        Dato nuevoDato= new Dato();
-        sleep(this.demoraMs);
-        this.cantidadCreados++;
-        this.bufferInicial.AgregarDato(nuevoDato);
+        try {
+            Dato nuevoDato= new Dato();
+            TimeUnit.SECONDS.sleep(this.demora);
+            this.cantidadCreados++;
+            this.bufferInicial.agregarDato(nuevoDato);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
+    public int getCantidadCreados() {
+        return cantidadCreados;
+    }
 }
