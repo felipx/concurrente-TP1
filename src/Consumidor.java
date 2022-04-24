@@ -44,10 +44,10 @@ public class Consumidor implements Runnable {
 
     public void consumir(){
         try {
-            TimeUnit.SECONDS.sleep(this.demoraConsumidor);
             Dato dato = bufferValidado.obtenerDato();
             if (dato == null)
                 return;
+            TimeUnit.SECONDS.sleep(this.demoraConsumidor);
             int id = dato.getId();
             bufferValidado.BorrarDato(id);
             bufferInicial.BorrarDato(id);
