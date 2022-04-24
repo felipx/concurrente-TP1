@@ -28,13 +28,16 @@ public class Buffer {
      * @param dato El dato a agregar en el Buffer.
      */
     public void agregarDato(Dato dato) throws Exception {
-        this.lock.writeLock().lock();
-        if (datos.size() == LimiteDatos){
+        this.lock.readLock().lock();
+        int size = datos.size();
+        this.lock.readLock().unlock();
+        if (size == LimiteDatos){
             this.rechazados++;
             return;
-        }else if (datos.size() > LimiteDatos){
+        }else if (size > LimiteDatos){
             throw new Exception("Buffer rebalsado Exception" + this.datos.size());
         }
+        this.lock.writeLock().lock();
         datos.put(dato.getId(), dato);
         this.lock.writeLock().unlock();
     }
