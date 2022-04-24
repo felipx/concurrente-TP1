@@ -1,17 +1,18 @@
 import java.util.concurrent.TimeUnit;
 
 public class Revisor implements Runnable{
-    public static int N_REVISORES;
+    private int N_REVISORES;
     private Buffer bufferInicial;
     private Buffer bufferValidado;
     private Integer cantidadRevisados;
     private final int demora;
 
-    public Revisor(Buffer bufferInicial, Buffer bufferValidado, int demora){
+    public Revisor(Buffer bufferInicial, Buffer bufferValidado, int demora, int N_REVISORES){
         this.bufferInicial = bufferInicial;
         this.bufferValidado = bufferValidado;
         this.cantidadRevisados = 0;
         this.demora = demora;
+        this.N_REVISORES = N_REVISORES;
     }
 
     public void run(){
@@ -45,6 +46,10 @@ public class Revisor implements Runnable{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setCantidad(int num){
+        N_REVISORES = num;
     }
 
 
