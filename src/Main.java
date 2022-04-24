@@ -19,11 +19,11 @@ public class Main {
         }
 
         for(int i=0; i < N_REVISORES; i++){
-            Revisor revisor = new Consumidor(bufferInicial, bufferValidado, demora, N_REVISORES);
+            Revisor revisor = new Revisor(bufferInicial, bufferValidado, tiempoDeRevision, N_REVISORES);
             Thread thread = new Thread(revisor);
             thread.start();
         }
-}
+
         for(int i=0; i < N_CONSUMIDORES; i++){
             Consumidor consumidor = new Consumidor(bufferValidado, bufferInicial, tiempoDeConsumision);
             Thread thread = new Thread(consumidor);
