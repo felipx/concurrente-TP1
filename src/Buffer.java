@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.HashMap;av
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -38,6 +38,7 @@ public class Buffer {
         datos.put(dato.getId(), dato);
         this.lock.writeLock().unlock();
     }
+
 
     /**
      * Obtiene un dato del Buffer.

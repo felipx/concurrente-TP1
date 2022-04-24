@@ -8,22 +8,40 @@ public class Consumidor implements Runnable {
 
     private int tiempo;
 
-    private Buffer  bufferinciar;
-
-    private ReentrantReadWriteLock lockinicial;
-
     private Buffer bufferValidado;
 
     private ReentrantReadWriteLock lockvalidado;
 
-    private Integer cantidadConsumidos;
+    private int cantidadConsumidos;
 
-    public Consumidor(){}
 
-    public void consumir(){}
+    /** Constructor con parametros  */
+    public Consumidor( int tiempo, Buffer bufferValidado, ReentrantReadWriteLock lockinicial,
+                       ReentrantReadWriteLock lockvalidado ) {
+
+        this.tiempo = tiempo;
+        this.bufferValidado = bufferValidado;
+        this.lockvalidado = lockvalidado;
+        cantidadConsumidos =  0 ;
+
+    }
+
+    public void consumir() throws Exception {
+
+          bufferValidado.BorrarDato(bufferValidado.obtenerDato().getId());
+          cantidadConsumidos++;
+    }
 
     @Override
-    public void run(){}
+    public void run(){
 
+        while(cantidadConsumidos<500) {
+            try {
+                consumir();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }
