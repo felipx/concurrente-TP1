@@ -27,15 +27,12 @@ public class Consumidor implements Runnable {
     }
 
     public synchronized void aumentarConsumisiones() {
-
         datosconsumidos++;
-
+        System.out.println("Consumidos: " + datosconsumidos);
     }
 
     public static synchronized int getDatosconsumidos(){
-
         return datosconsumidos;
-
     }
 
     public static int getMaximasConsumisiones(){
@@ -44,17 +41,17 @@ public class Consumidor implements Runnable {
 
     public void consumir(){
         try {
-            Dato dato = bufferValidado.obtenerDato();
-            if (dato == null) {
-                System.out.printf("consumidor dato null\n");
-                return;
-            }
             TimeUnit.SECONDS.sleep(this.demoraConsumidor);
+            Dato dato = bufferValidado.obtenerDato();
+            if (dato == null)
+                return;
             int id = dato.getId();
             bufferValidado.BorrarDato(id);
             bufferInicial.BorrarDato(id);
             cantidadConsumidos++;
             aumentarConsumisiones();
+        }catch (NullPointerException e) {
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -67,7 +64,6 @@ public class Consumidor implements Runnable {
         while(cantidadConsumidos< MAXIMAS_CONSUMISIONES) {
             try {
                 consumir();
-                System.out.printf("%d\n", datosconsumidos);
             } catch (Exception e) {
                 e.printStackTrace();
             }

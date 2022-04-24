@@ -32,6 +32,7 @@ public class Creador implements Runnable{
             Dato nuevoDato= new Dato();
             TimeUnit.SECONDS.sleep(this.demora);
             this.cantidadCreados++;
+            System.out.println("Creados: " + cantidadCreados + ' ' + Thread.currentThread().getName());
             this.bufferInicial.agregarDato(nuevoDato);
         } catch (InterruptedException e) {
             e.printStackTrace();

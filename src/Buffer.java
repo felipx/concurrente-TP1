@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -48,22 +47,16 @@ public class Buffer {
      * Obtiene un dato del Buffer.
      * Si no hay datos o si están en uso, devuelve null.
      */
-    public Dato obtenerDato() throws Exception{
+    public Dato obtenerDato() throws NullPointerException{
         this.lock.readLock().lock();
         if (datos.isEmpty()) {
             this.lock.readLock().unlock();
-            return null;
-            //throw new Exception("Buffer vacío");
+            throw new NullPointerException("Buffer vacio");
         }
         Random generator = new Random();
-        //Object[] values = this.datos.values().toArray();
-        Set keys = datos.keySet();
-        int size = keys.size();
-        int n = generator.nextInt(size);
+        Object[] values = this.datos.values().toArray();
         this.lock.readLock().unlock();
-        System.out.printf("Dato devuelto id: %d\n", datos.get(n).getId());
-        return datos.get(n);
-        //return (Dato) values[generator.nextInt(values.length)];
+        return (Dato) values[generator.nextInt(values.length)];
     }
 
     /**
@@ -71,11 +64,6 @@ public class Buffer {
      * @param id El id del dato a eliminar del Buffer.
      */
     public void BorrarDato(int id) throws Exception {
-        this.lock.readLock().lock();
-        if (!datos.containsKey(id)){
-            this.lock.readLock().unlock();
-            throw new Exception("El dato ya fue borrado.");
-        }
         this.lock.writeLock().lock();
         datos.remove(id);
         this.lock.writeLock().unlock();

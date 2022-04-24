@@ -27,7 +27,7 @@ public class Main {
         for(int i=0; i < N_CONSUMIDORES; i++){
             Consumidor consumidor = new Consumidor(bufferValidado, bufferInicial, tiempoDeConsumision);
             Thread thread = new Thread(consumidor);
-            //thread.start();
+            thread.start();
         }
     }
 }

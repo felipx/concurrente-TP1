@@ -5,6 +5,7 @@ public class Revisor implements Runnable{
     private Buffer bufferInicial;
     private Buffer bufferValidado;
     private Integer cantidadRevisados;
+    private static int totalRevisiones = 0;
     private final int demora;
 
     public Revisor(Buffer bufferInicial, Buffer bufferValidado, int demora, int N_REVISORES){
@@ -16,29 +17,26 @@ public class Revisor implements Runnable{
     }
 
     public void run(){
-        System.out.printf("inicio revisor\n");
         while(Consumidor.getDatosconsumidos() < Consumidor.getMaximasConsumisiones()){
             revisar();
-            System.out.printf("revisando\n");
         }
     }
 
     public void revisar(){
         try {
             Dato dato = this.bufferInicial.obtenerDato();
-            if (dato == null) {
-                System.out.printf("revisor dato null\n");
+            if (dato == null)
                 return;
-            }
-            System.out.printf("revisor dato no null\n");
-            if(!dato.revisadoPor(this)){
+            if (!dato.revisadoPor(this)) {
                 TimeUnit.SECONDS.sleep(this.demora);
                 dato.addReviewer(this);
+                cantidadRevisados++;
+                System.out.println("Revisados: " + cantidadRevisados + ' ' + Thread.currentThread().getName());
             }
             this.copiar(dato);
-        }catch (InterruptedException e){
-            e.printStackTrace();
-        } catch (Exception e) {
+        }catch (NullPointerException e) {
+
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -54,6 +52,8 @@ public class Revisor implements Runnable{
             }
         }
     }
+
+
 
     public void setCantidad(int num){
         N_REVISORES = num;
