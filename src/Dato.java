@@ -50,7 +50,7 @@ public class Dato {
     public int getReviewersCount(){
         this.lock.readLock().lock();
         int size = this.reviews.size();
-        this.lock.readLock().lock();
+        this.lock.readLock().unlock();
         return size;
     }
 
