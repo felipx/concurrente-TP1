@@ -45,7 +45,10 @@ public class Consumidor implements Runnable {
     public void consumir(){
         try {
             TimeUnit.SECONDS.sleep(this.demoraConsumidor);
-            int id = bufferValidado.obtenerDato().getId();
+            Dato dato = bufferValidado.obtenerDato();
+            if (dato == null)
+                return;
+            int id = dato.getId();
             bufferValidado.BorrarDato(id);
             bufferInicial.BorrarDato(id);
             cantidadConsumidos++;

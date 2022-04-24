@@ -24,6 +24,8 @@ public class Revisor implements Runnable{
     public void revisar(){
         try {
             Dato dato = this.bufferInicial.obtenerDato();
+            if (dato == null)
+                return;
             if(!dato.revisadoPor(this)){
                 TimeUnit.SECONDS.sleep(this.demora);
                 dato.addReviewer(this);

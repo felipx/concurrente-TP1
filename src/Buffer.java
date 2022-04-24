@@ -51,7 +51,8 @@ public class Buffer {
         this.lock.readLock().lock();
         if (datos.isEmpty()) {
             this.lock.readLock().unlock();
-            throw new Exception("Buffer vacío");
+            return null;
+            //throw new Exception("Buffer vacío");
         }
         Random generator = new Random();
         Object[] values = this.datos.values().toArray();
