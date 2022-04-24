@@ -1,9 +1,9 @@
 public class Main {
     public  static final int bufferSize = 100;
-    public static final int tiempoDeCreacion = 0;
-    public static final int tiempoDeRevision = 0;
-    public static final int tiempoDeConsumision = 0;
-    public static final int N_CREADORES = 4;
+    public static final int tiempoDeCreacion = 1;
+    public static final int tiempoDeRevision = 3;
+    public static final int tiempoDeConsumision = 4;
+    public static final int N_CREADORES = 1;
     public static final int N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
 
@@ -29,5 +29,6 @@ public class Main {
             Thread thread = new Thread(consumidor);
             thread.start();
         }
+        System.out.println("Finalizado");
     }
 }

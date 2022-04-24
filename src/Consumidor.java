@@ -13,7 +13,7 @@ public class Consumidor implements Runnable {
 
     private int cantidadConsumidos;
 
-    private static final int MAXIMAS_CONSUMISIONES = 1000;
+    private static final int MAXIMAS_CONSUMISIONES = 5;
 
 
     /** Constructor con parametros  */
