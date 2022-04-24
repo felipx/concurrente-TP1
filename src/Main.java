@@ -4,7 +4,7 @@ public class Main {
     public static final int tiempoDeRevision = 0;
     public static final int tiempoDeConsumision = 0;
     CREADOR.N_CREADORES = 4;
-    REVISOR. N_REVISORES = 2;
+    REVISOR.N_REVISORES = 2;
     public static final int N_CONSUMIDORES = 2;
 
 

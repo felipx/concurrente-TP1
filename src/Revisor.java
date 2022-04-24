@@ -37,7 +37,7 @@ public class Revisor implements Runnable{
 
     public void copiar(Dato dato){
         Dato copia;
-        if(dato.getReviewersCount() == N_REVISORES){
+        if(dato.getReviewersCount() == this.N_REVISORES){
             try {
                 copia = dato.clone();
                 this.bufferValidado.agregarDato(copia);
