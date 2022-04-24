@@ -15,7 +15,7 @@ public class Revisor implements Runnable{
     }
 
     public void run(){
-        for(int i=0; i<1000; i++){
+        while(Consumidor.getDatosconsumidos() < Consumidor.getMaximasConsumisiones()){
             revisar();
         }
     }

@@ -11,7 +11,7 @@ public class Consumidor implements Runnable {
 
     private int cantidadConsumidos;
 
-    private final int maximasConsumisiones = 1000;
+    private static final int MAXIMAS_CONSUMISIONES = 1000;
 
 
     /** Constructor con parametros  */
@@ -29,10 +29,14 @@ public class Consumidor implements Runnable {
 
     }
 
-    public synchronized int getDatosconsumidos(){
+    public static synchronized int getDatosconsumidos(){
 
         return datosconsumidos;
 
+    }
+
+    public static int getMaximasConsumisiones(){
+        return MAXIMAS_CONSUMISIONES;
     }
 
     public void consumir() throws Exception {
@@ -45,7 +49,7 @@ public class Consumidor implements Runnable {
     @Override
     public void run(){
 
-        while(cantidadConsumidos<maximasConsumisiones) {
+        while(cantidadConsumidos< MAXIMAS_CONSUMISIONES) {
             try {
                 consumir();
             } catch (Exception e) {
