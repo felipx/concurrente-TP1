@@ -1,28 +1,37 @@
-import java.util.concurrent.locks.ReentrantLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 
 public class Consumidor implements Runnable {
 
 
-
+    private static int datosconsumidos = 0;
 
     private int tiempo;
 
     private Buffer bufferValidado;
 
-    private ReentrantReadWriteLock lockvalidado;
-
     private int cantidadConsumidos;
+
+    private final int maximasConsumisiones = 1000;
 
 
     /** Constructor con parametros  */
-    public Consumidor( int tiempo, Buffer bufferValidado, ReentrantReadWriteLock lockinicial,
-                       ReentrantReadWriteLock lockvalidado ) {
+    public Consumidor( int tiempo, Buffer bufferValidado) {
 
         this.tiempo = tiempo;
         this.bufferValidado = bufferValidado;
-        this.lockvalidado = lockvalidado;
         cantidadConsumidos =  0 ;
+
+    }
+
+    public synchronized void aumentarConsumisiones() {
+
+        datosconsumidos++;
+
+    }
+
+    public synchronized int getDatosconsumidos(){
+
+        return datosconsumidos;
 
     }
 
@@ -30,12 +39,13 @@ public class Consumidor implements Runnable {
 
           bufferValidado.BorrarDato(bufferValidado.obtenerDato().getId());
           cantidadConsumidos++;
+          aumentarConsumisiones();
     }
 
     @Override
     public void run(){
 
-        while(cantidadConsumidos<500) {
+        while(cantidadConsumidos<maximasConsumisiones) {
             try {
                 consumir();
             } catch (Exception e) {
