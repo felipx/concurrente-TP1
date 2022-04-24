@@ -68,6 +68,4 @@ public class Consumidor implements Runnable {
         }
     }
 
-    public void set
-
 }
