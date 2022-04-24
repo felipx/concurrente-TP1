@@ -27,7 +27,7 @@ public class Revisor implements Runnable{
                 TimeUnit.SECONDS.sleep(this.demora);
                 dato.addReviewer(this);
             }
-            this.copiar((Dato) dato.clone());
+            this.copiar(dato);
         }catch (InterruptedException e){
             e.printStackTrace();
         } catch (Exception e) {
@@ -36,9 +36,11 @@ public class Revisor implements Runnable{
     }
 
     public void copiar(Dato dato){
+        Dato copia;
         if(dato.getReviewersCount() == N_REVISORES){
             try {
-                this.bufferValidado.agregarDato(dato);
+                copia = dato.clone();
+                this.bufferValidado.agregarDato(copia);
             } catch (Exception e) {
                 e.printStackTrace();
             }

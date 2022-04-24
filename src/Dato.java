@@ -31,14 +31,15 @@ public class Dato {
      *
      * @param revisor El revisor a agregar
      */
-    public void addReviewer(Revisor revisor){
-        if(!revisadoPor(revisor)){
+    public void addReviewer (Revisor revisor) throws Exception{
+        if(revisadoPor(revisor)){
+            throw new Exception("El revisor " + revisor + " ya ha revisado este dato");
+        }
+        else{
             this.lock.writeLock().lock();
             this.reviews.add(revisor);
             this.lock.writeLock().unlock();
-        }
-        else{
-            System.out.println("El revisor " + revisor + " ya ha revisado este dato");
+
         }
     }
 
