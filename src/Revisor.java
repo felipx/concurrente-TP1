@@ -1,7 +1,7 @@
 import java.util.concurrent.TimeUnit;
 
 public class Revisor implements Runnable{
-    public static final int N_REVISORES = 2;
+    public static int N_REVISORES;
     private Buffer bufferInicial;
     private Buffer bufferValidado;
     private Integer cantidadRevisados;

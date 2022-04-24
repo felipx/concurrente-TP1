@@ -1,7 +1,7 @@
 import java.util.concurrent.TimeUnit;
 
 public class Creador implements Runnable{
-    public static final int N_CREADORES = 4;
+    public static int N_CREADORES;
     private Buffer bufferInicial;
     private int cantidadCreados;
     private final long demora;
