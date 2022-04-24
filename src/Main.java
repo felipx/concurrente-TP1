@@ -12,7 +12,6 @@ public class Main {
         Buffer bufferInicial = new Buffer(bufferSize);
         Buffer bufferValidado = new Buffer(bufferSize);
 
-        CreadorN_CONSUMIDORES
         for(int i=0; i < Creador.N_CREADORES; i++){
             Creador creador = new Creador(bufferInicial, tiempoDeCreacion);
             Thread thread = new Thread(creador);
@@ -20,9 +19,8 @@ public class Main {
         }
 
         for(int i=0; i < Revisor.N_REVISORES; i++){
-            Revisor revisor = new Revisor(bufferInicial, bufferValidado, tiempoDeRevision);
-            Thread thread = new Thread(revisor);
-            thread.start();
+            Consumidor consumidor = new Consumidor(bufferValidado, bufferInicial, tiempoDeConsumision);
+            Thread thread = new Thread(consumidor);
+            //thread.start();
         }
-    }
 }
