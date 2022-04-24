@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.Random;
 
@@ -55,9 +56,14 @@ public class Buffer {
             //throw new Exception("Buffer vacío");
         }
         Random generator = new Random();
-        Object[] values = this.datos.values().toArray();
+        //Object[] values = this.datos.values().toArray();
+        Set keys = datos.keySet();
+        int size = keys.size();
+        int n = generator.nextInt(size);
         this.lock.readLock().unlock();
-        return (Dato) values[generator.nextInt(values.length)];
+        System.out.printf("Dato devuelto id: %d\n", datos.get(n).getId());
+        return datos.get(n);
+        //return (Dato) values[generator.nextInt(values.length)];
     }
 
     /**

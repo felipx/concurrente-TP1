@@ -16,16 +16,21 @@ public class Revisor implements Runnable{
     }
 
     public void run(){
+        System.out.printf("inicio revisor\n");
         while(Consumidor.getDatosconsumidos() < Consumidor.getMaximasConsumisiones()){
             revisar();
+            System.out.printf("revisando\n");
         }
     }
 
     public void revisar(){
         try {
             Dato dato = this.bufferInicial.obtenerDato();
-            if (dato == null)
+            if (dato == null) {
+                System.out.printf("revisor dato null\n");
                 return;
+            }
+            System.out.printf("revisor dato no null\n");
             if(!dato.revisadoPor(this)){
                 TimeUnit.SECONDS.sleep(this.demora);
                 dato.addReviewer(this);

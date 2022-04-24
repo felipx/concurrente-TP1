@@ -45,8 +45,10 @@ public class Consumidor implements Runnable {
     public void consumir(){
         try {
             Dato dato = bufferValidado.obtenerDato();
-            if (dato == null)
+            if (dato == null) {
+                System.out.printf("consumidor dato null\n");
                 return;
+            }
             TimeUnit.SECONDS.sleep(this.demoraConsumidor);
             int id = dato.getId();
             bufferValidado.BorrarDato(id);
@@ -65,6 +67,7 @@ public class Consumidor implements Runnable {
         while(cantidadConsumidos< MAXIMAS_CONSUMISIONES) {
             try {
                 consumir();
+                System.out.printf("%d\n", datosconsumidos);
             } catch (Exception e) {
                 e.printStackTrace();
             }
