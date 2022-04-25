@@ -32,15 +32,9 @@ public class Dato {
      * @param revisor El revisor a agregar
      */
     public void addReviewer (Revisor revisor) throws Exception{
-        if(revisadoPor(revisor)){
-            throw new Exception("El revisor " + revisor + " ya ha revisado este dato");
-        }
-        else{
-            this.lock.writeLock().lock();
-            this.reviews.add(revisor);
-            this.lock.writeLock().unlock();
-
-        }
+        this.lock.writeLock().lock();
+        this.reviews.add(revisor);
+        this.lock.writeLock().unlock();
     }
 
     /**
@@ -53,11 +47,6 @@ public class Dato {
         this.lock.readLock().unlock();
         return size;
     }
-
-    /**
-     * Verifica si el dato está validad
-     *
-     */
 
     /**
      * Verifica que el validador no haya revisado el dato anteriormente
@@ -76,10 +65,11 @@ public class Dato {
      * Realiza la copia de un dato
      *
      */
-    public Dato clone(){
+    public Dato copiar(){
         this.lock.readLock().lock();
-        HashSet<Revisor> reviews = (HashSet<Revisor>) this.reviews.clone();
-        Dato dato = new Dato(this.id, reviews);
+        HashSet<Revisor> reviewsCopy = new HashSet<>();
+        reviewsCopy.addAll(reviews);
+        Dato dato = new Dato(this.id, reviewsCopy);
         this.lock.readLock().unlock();
         return dato;
     }

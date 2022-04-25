@@ -2,37 +2,31 @@ import java.util.concurrent.TimeUnit;
 
 public class Consumidor implements Runnable {
 
-
-    private static int datosconsumidos = 0;
-
+    private static int totalConsumidos = 0;
     private int demoraConsumidor;
-
     private Buffer bufferValidado;
-
     private Buffer bufferInicial;
-
     private int cantidadConsumidos;
-
-    private static final int MAXIMAS_CONSUMISIONES = 5;
-
+    private static final int MAXIMAS_CONSUMISIONES = 1000;
+    private final Object controlConsumisiones;
 
     /** Constructor con parametros  */
     public Consumidor(Buffer bufferValidado, Buffer bufferInicial,int demoraConsumidor) {
-
         this.demoraConsumidor = demoraConsumidor;
         this.bufferInicial = bufferInicial;
         this.bufferValidado = bufferValidado;
-        cantidadConsumidos =  0 ;
-
+        cantidadConsumidos =  0;
+        controlConsumisiones = new Object();
     }
 
-    public synchronized void aumentarConsumisiones() {
-        datosconsumidos++;
-        System.out.println("Consumidos: " + datosconsumidos);
+    public synchronized void aumentarConsumisiones() throws InterruptedException{
+        synchronized (controlConsumisiones) {
+            totalConsumidos++;
+        }
     }
 
-    public static synchronized int getDatosconsumidos(){
-        return datosconsumidos;
+    public static synchronized int getTotalConsumidos(){
+        return totalConsumidos;
     }
 
     public static int getMaximasConsumisiones(){
@@ -40,19 +34,16 @@ public class Consumidor implements Runnable {
     }
 
     public void consumir(){
+        if (this.bufferValidado.estaVacio())
+            return;
         try {
             TimeUnit.SECONDS.sleep(this.demoraConsumidor);
-            Dato dato = bufferValidado.obtenerDato();
-            if (dato == null)
-                return;
-            int id = dato.getId();
-            bufferValidado.BorrarDato(id);
-            bufferInicial.BorrarDato(id);
-            cantidadConsumidos++;
-            aumentarConsumisiones();
-        }catch (NullPointerException e) {
-
-        }catch (Exception e){
+            boolean consumido = bufferValidado.consumirDato();
+            if (consumido) {
+                cantidadConsumidos++;
+                aumentarConsumisiones();
+            }
+        } catch (Exception e){
             e.printStackTrace();
         }
 
@@ -60,14 +51,13 @@ public class Consumidor implements Runnable {
 
     @Override
     public void run(){
-
-        while(cantidadConsumidos< MAXIMAS_CONSUMISIONES) {
-            try {
-                consumir();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        while(true) {
+            consumir();
+            if (bufferValidado.getConsumidos() == MAXIMAS_CONSUMISIONES)
+                break;
         }
+        //System.out.println("Consumidor: consumidos = " + cantidadConsumidos + " Total consumidos = "+ getTotalConsumidos());
+        System.out.println("Consumidor: consumidos = " + cantidadConsumidos);
     }
 
 }
